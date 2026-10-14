@@ -37,6 +37,8 @@ Sans ce fichier, Postgres peut refuser de démarrer (`POSTGRES_PASSWORD` manquan
 docker compose up --build
 ```
 
+Après une modification de code PHP, refaire un build (`--build`) : le code est copié dans l’image (pas de bind mount, plus fiable sous Windows).
+
 4. Ouvrir http://localhost:8080
 
 Tu dois voir la version PHP et « Connexion PostgreSQL OK ».
@@ -73,20 +75,22 @@ cp .env.example .env
 docker compose up --build
 ```
 
-Erreur `Bind for 0.0.0.0:5432 failed: port is already allocated` : un Postgres local occupe déjà 5432. Le projet publie désormais `5433` sur l’hôte (`POSTGRES_PORT` dans `.env`). Après `git pull` :
-
-```bash
-cp .env.example .env
-docker compose down
-docker compose up --build
-```
-
-Erreur **403 Forbidden** nginx (souvent Windows) : le volume n’est pas lisible ou le projet n’est pas monté. Vérifier que `index.php` est bien à la racine du dépôt, que le lecteur est partagé dans Docker Desktop (Settings → Resources → File sharing), puis :
+Erreur `Bind for 0.0.0.0:5432 failed: port is already allocated` : un Postgres local occupe déjà 5432. Dans `.env`, changer par ex. `POSTGRES_PORT=5433`, puis :
 
 ```bash
 docker compose down
 docker compose up --build
 ```
+
+Erreur **403 Forbidden** ou **404 File not found** : image PHP / nginx pas à jour, ou ancien conteneur. Rebuild obligatoire :
+
+```bash
+docker compose down
+docker compose up --build --force-recreate
+docker compose exec php ls -la /var/www/html
+```
+
+Il faut voir `index.php` et `config/`.
 
 Erreur `not a directory` / mount de `default.conf` (souvent Windows) : Docker a créé un **dossier** à la place du fichier. Supprimer ce dossier fantôme, récupérer le fichier Git, puis rebuild :
 

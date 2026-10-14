@@ -13,4 +13,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
+# Fichiers applicatifs dans l'image (secours si le bind mount Windows est vide)
+COPY index.php /var/www/html/index.php
+COPY config/ /var/www/html/config/
+
 CMD ["php-fpm"]
