@@ -59,7 +59,7 @@ Puis enregistrer le serveur PostgreSQL (Register → Server) :
 | Username | `lovelace` |
 | Password | `lovelace_dev` |
 
-Important : le host est `postgres` (nom du service Docker), pas `localhost`. Depuis pgAdmin (dans Docker), le port reste `5432`. Depuis l’hôte (DBeaver, etc.), utiliser `localhost:5433`.
+Important : le host est `postgres` (nom du service Docker), pas `localhost`. Depuis l’hôte (DBeaver, etc.) : `localhost:5432` (ou la valeur de `POSTGRES_PORT` dans `.env`).
 
 Arrêt : `docker compose down`
 
