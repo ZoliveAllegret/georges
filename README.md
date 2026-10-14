@@ -59,7 +59,7 @@ Puis enregistrer le serveur PostgreSQL (Register → Server) :
 | Username | `lovelace` |
 | Password | `lovelace_dev` |
 
-Important : le host est `postgres` (nom du service Docker), pas `localhost`.
+Important : le host est `postgres` (nom du service Docker), pas `localhost`. Depuis pgAdmin (dans Docker), le port reste `5432`. Depuis l’hôte (DBeaver, etc.), utiliser `localhost:5433`.
 
 Arrêt : `docker compose down`
 
@@ -70,6 +70,21 @@ Erreur `data directory was initialized by PostgreSQL version 16` (ou autre versi
 ```bash
 docker compose down -v
 cp .env.example .env
+docker compose up --build
+```
+
+Erreur `Bind for 0.0.0.0:5432 failed: port is already allocated` : un Postgres local occupe déjà 5432. Le projet publie désormais `5433` sur l’hôte (`POSTGRES_PORT` dans `.env`). Après `git pull` :
+
+```bash
+cp .env.example .env
+docker compose down
+docker compose up --build
+```
+
+Erreur **403 Forbidden** nginx (souvent Windows) : le volume n’est pas lisible ou le projet n’est pas monté. Vérifier que `index.php` est bien à la racine du dépôt, que le lecteur est partagé dans Docker Desktop (Settings → Resources → File sharing), puis :
+
+```bash
+docker compose down
 docker compose up --build
 ```
 
