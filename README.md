@@ -37,7 +37,7 @@ Sans ce fichier, Postgres peut refuser de démarrer (`POSTGRES_PASSWORD` manquan
 docker compose up --build
 ```
 
-Après une modification de code PHP, refaire un build (`--build`) : le code est copié dans l’image (pas de bind mount, plus fiable sous Windows).
+Le code PHP est monté depuis le projet (`.:/var/www/html`) : une modification de `index.php` est visible après un simple rechargement du navigateur (pas besoin de rebuild).
 
 4. Ouvrir http://localhost:8080
 
