@@ -63,6 +63,26 @@ Important : le host est `postgres` (nom du service Docker), pas `localhost`.
 
 Arrêt : `docker compose down`
 
+### Dépannage
+
+Erreur `data directory was initialized by PostgreSQL version 16` (ou autre version), ou `password authentication failed for user "lovelace"` : le volume Docker a été créé avec d’anciennes données / un autre mot de passe. Réinitialiser (données locales perdues) :
+
+```bash
+docker compose down -v
+cp .env.example .env
+docker compose up --build
+```
+
+Erreur `not a directory` / mount de `default.conf` (souvent Windows) : Docker a créé un **dossier** à la place du fichier. Supprimer ce dossier fantôme, récupérer le fichier Git, puis rebuild :
+
+```bash
+# PowerShell
+Remove-Item -Recurse -Force .\docker\nginx\default.conf -ErrorAction SilentlyContinue
+git checkout -- docker/nginx/default.conf
+docker compose down
+docker compose up --build
+```
+
 ## Contribution
 
 - Toujours partir de `main` à jour : `git switch main && git pull`

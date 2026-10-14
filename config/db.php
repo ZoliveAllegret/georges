@@ -6,7 +6,7 @@ $host = getenv('DB_HOST') ?: 'postgres';
 $port = getenv('DB_PORT') ?: '5432';
 $dbname = getenv('DB_NAME') ?: 'lovelace';
 $user = getenv('DB_USER') ?: 'lovelace';
-$password = getenv('DB_PASSWORD') ?: 'lovelace';
+$password = getenv('DB_PASSWORD') ?: 'lovelace_dev';
 
 $dsn = "pgsql:host={$host};port={$port};dbname={$dbname}";
 
