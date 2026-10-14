@@ -2,7 +2,7 @@
 
 Plateforme web pour un atelier de céramique — projet collectif Ada Tech School (CDA).
 
-Stack actuelle (cours 1) : PHP 8.5 · PostgreSQL 16 · Docker Compose.
+Stack actuelle (cours 1) : PHP 8.5 · PostgreSQL 17 · Docker Compose.
 
 ## Prérequis
 
@@ -23,11 +23,13 @@ git clone <url-du-depot> lovelace-ceramique
 cd lovelace-ceramique
 ```
 
-2. Créer le fichier d’environnement
+2. Créer le fichier d’environnement (**obligatoire** — `.env` n’est pas versionné)
 
 ```bash
 cp .env.example .env
 ```
+
+Sans ce fichier, Postgres peut refuser de démarrer (`POSTGRES_PASSWORD` manquant).
 
 3. Lancer la stack
 
